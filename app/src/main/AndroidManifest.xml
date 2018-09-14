@@ -19,6 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".DnDActivity" />
+        <activity android:name=".PathfinderActivity" />
+        <activity android:name=".StarfinderActivity"></activity>
     </application>
 
 </manifest>

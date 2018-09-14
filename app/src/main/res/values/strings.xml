@@ -1,4 +1,15 @@
 <resources>
-    <string name="app_name">CharacterSheetTest</string>
+    <string name="app_name">Character Builder App</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="dndRaces">
+        <item>Human</item>
+        <item>Elf</item>
+        <item>Half-Elf</item>
+        <item>Halfling</item>
+        <item>Dwarf</item>
+        <item>Tiefling</item>
+        <item>Dragonborn</item>
+        <item>Half-Orc</item>
+    </string-array>
 </resources>
