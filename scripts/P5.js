@@ -26,8 +26,7 @@ $('#hit').on('click', function(){
     console.log(`Player draw: ${translateCard(playerHand[playerHand.length-1])}`)
     console.log(`Player total: ${addHandValue(playerHand)}`)
     
-    // display player's hand value
-    // check for bust
+    checkGameOver(playerHand, dealerHand)
     // do the same for the dealer
 })
 
