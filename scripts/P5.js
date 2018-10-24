@@ -36,14 +36,19 @@ $('#stay').on('click', function () {
     console.log("I'll stay!")
     console.log("Player stays. Result: .")
 
-    // don't want to let the player keep playing after game is ended
+    // Don't want to let the player keep playing after game is ended
     $('#hit').attr('disabled', true)
     $('#stay').attr('disabled', true)
     $('#split').attr('disabled', true)
 
-    // show user the result
+    // Show dealer's hand and total
+    //...
+
+    // show user the result of who won
     $('#handresult1').show()
-    $('#handresult2').show()
+
+    //if(dealer won)
+    alert(`${checkwhowon()} has won!`) // need to set this to either dealer or player depending on who won
 
     // Decide winner based on who is closer to 21, but still under it
 })
@@ -198,4 +203,9 @@ function checkGameOver(player, dealer){
 // Returns a random number between the specified range
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (+max - +min) + +min)
+}
+
+// Will return either "Player" or "Dealer" depending on who has higher total and who did or didn't bust (not implemented yet)
+function checkWhoWon(){
+    return "player"
 }
