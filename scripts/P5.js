@@ -1,8 +1,8 @@
 // Event listener for start game button - Initializes a new game
 $('#start').on('click', function(){
     // Shows game area and creates a new deck
-    $('#start').attr('hidden', true)
-    $('#game').removeAttr('hidden')
+    $('#start').hide()
+    $('#game').show()
     deck = newDeck()
 
     // Draw 2 cards each for player and dealer
@@ -23,10 +23,11 @@ $('#hit').on('click', function(){
     playerHand.push(getCardFromDeck())
     $('#playerHandTotal').text(addHandValue(playerHand))
     console.log(`Player hits.`)
-    console.log(`Player draw: ${translateCard(playerHand[playerHand.length-1])}`)
-    console.log(`Player total: ${addHandValue(playerHand)}`)
+    $('#actions').append(`<br/> Player draw: ${translateCard(playerHand[playerHand.length - 1])}`)
     
-    checkGameOver(playerHand, dealerHand)
+    if(checkGameOver(playerHand, dealerHand)){
+        $('#stay').click()
+    }
     // do the same for the dealer
 })
 
@@ -41,22 +42,20 @@ $('#stay').on('click', function () {
     $('#split').attr('disabled', true)
 
     // show user the result
-    $('#handresult1').removeAttr('hidden')
-    $('#handresult2').removeAttr('hidden')
+    $('#handresult1').show()
+    $('#handresult2').show()
 
     // Decide winner based on who is closer to 21, but still under it
 })
 
 // Event listener for split button - Splits the player's hand (only available when player has two-of-a-kind)
 $('#split').on('click', function () {
-    console.log("Split!")
+    alert("Functionality not built in yet!")
 })
 
-// Event listener for fnish button - For when player is done playing
+// Event listener for fnish button - For when player is done playing... simply reloads the page
 $('#fin').on('click', function () {
-    console.log("Fin!")
-    $('#game').attr('hidden', true)
-    $('#start').removeAttr('hidden')
+    location.reload()
 })
 
 // Event listener for next hand button - Will start a new hand, keeping the current state of the deck
@@ -181,9 +180,10 @@ function translateCard(card){
     }
 }
 
+// Checks each players hands for game over
 function checkGameOver(player, dealer){
-    let pval = addHandValue(hand)
-    let dval = addHandValue(hand)
+    let pval = addHandValue(player)
+    let dval = addHandValue(dealer)
 
     // A player gets blackjack or busts
     if (pval === 21 || pval > 21 || dval === 21 || dval > 21){

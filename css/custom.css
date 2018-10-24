@@ -1,0 +1,18 @@
+.m-50 {
+    margin: 50px;
+}
+
+.game-btn{
+    margin-top: 10px;
+    width: 100%;
+}
+
+.action-btns{
+    margin-top: 10%;
+}
+
+.player-actions{
+    border-style: solid;
+    border-color: #000;
+    border-width: 1px;
+}

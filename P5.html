@@ -1,39 +1,93 @@
 <!doctype html>
 <html lang="en">
 <head>
-
+<!-- Latest compiled and minified Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional Bootstrap theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<link rel="stylesheet" href="css/custom.css" >
 </head>
 
-<body>
-    <div id="beforeGame">
-        <button id="start">Start Game</button>
-    </div>
-
-    <div id="game" hidden>
-        Player Hand: <span id="playerHand"></span>
-        <br />
-        Player Hand Total: <span id="playerHandTotal"></span>
-
-        <br />
-        <br />
-
-        <button id="hit">Hit</button>
-        <button id="stay">Stay</button>
-        <button id="split">Split</button>
-
-        <br />
-        <br />
-
-        <span id="handResult1" hidden>Result: </span><span id="handResult2"></span>
-
-        <br />
+<body style="background:#ccc;">
+    <div class="col-sm-6 col-sm-offset-3">
+        <!-- START BUTTON -->
+        <div class="text-center m-50" id="beforeGame">
+            <button id="start" class="btn btn-default">Start Game</button>
+        </div>
         
-        <button id="restart">Next Hand</button>
-        <button id="fin">Finish</button>
-    </div>
+        <div id="game" class="panel panel-default" hidden>
+            <!-- CURRENT TOTALS/HANDS -->
+            <div class="panel-heading text-center">
+                <h2>BLACK JACK</h2>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="col-md-6">
+                            Player Hand: <span id="playerHand"></span>
+                        </div>
+                        <div class="col-md-6">
+                            Player Hand Total: <span id="playerHandTotal"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-md-6">
+                            Dealer Hand: <span id="dealerHand"></span>
+                        </div>
+                        <div class="col-md-6">
+                            Dealer Hand Total: <span id="dealerHandTotal"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PLAYER ACTIONS -->
+                <div class="panel">
+                    <div class="panel-heading">
+                        PLAYER ACTIONS:
+                    </div>
+                    <div class="panel-body player-actions">                        
+                        <table id="actions"></table>
+                    </div>
+                </div>
+
+                <!-- PLAYER ACTION BUTTONS -->
+                <div class="row action-btns">
+                    <div class="col-xs-4">
+                        <button id="hit" class="btn btn-success game-btn">
+                            Hit
+                        </button>
+                    </div>
+                    <div class="col-xs-4">
+                        <button id="stay" class="btn btn-info game-btn">
+                            Stay
+                        </button>
+                    </div>
+                    <div class="col-xs-4">
+                        <button id="split" class="btn btn-warning game-btn">
+                            Split
+                        </button>
+                    </div>
+                </div>
+
+                <!-- GAME RESULT -->
+                <span id="handResult1" hidden>Result: </span><span id="handResult2"></span> 
+            </div>
+            <!-- FINAL ACTIONS -->
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-xs-offset-3">
+                        <button id="fin" class="btn btn-danger game-btn">Finish</button>
+                    </div>
+                </div>
+            </div>                       
+        </div>        
+    </div>    
 </body>
 
 <!-- Scripts -->
 <script src="scripts/jquery.min.js"></script>
 <script src="scripts/P5.js"></script>
+
+<!-- compiled and minified Bootstrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </html>
