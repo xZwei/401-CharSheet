@@ -7,34 +7,61 @@ $('#start').on('click', function(){
 
     // Draw 2 cards each for player and dealer
     playerHand.push(getCardFromDeck())
+    $('#playerHand').append(`${translateCard(playerHand[playerHand.length - 1])}, `)
     playerHand.push(getCardFromDeck())
+    $('#playerHand').append(`${translateCard(playerHand[playerHand.length - 1])}, `)
     dealerHand.push(getCardFromDeck())
+    $('#dealerHand').append(`${translateCard(dealerHand[dealerHand.length - 1])}, `)
     dealerHand.push(getCardFromDeck())
+    $('#dealerHand').append(`${translateCard(dealerHand[dealerHand.length - 1])}, `)
+    
+    //split logic will go here
+    //enable the button if playerHand[0].val === playerHand[1].val
+    //will have to make playerHand2 and all elements on html page will need to be duplicated
+    //and only revealed if player splits
 
-    checkGameOver(playerHand, dealerHand)
-    // Show player hand total
+    // Make sure no one has blackjack
+    if(checkGameOver(playerHand, dealerHand)){
+        $('#stay').click()
+    }
+
+    // Show hand totals
     $('#playerHandTotal').text(addHandValue(playerHand))
+    $('#dealerHandTotal').text(addHandValue(dealerHand))
 
     // Check dealer cards for blackjack at start
 })
 
-// Event listener for hit button - Player draws a card
+// Event listener for hit button - Player draws a card, dealer follows dealer rules for drawing
 $('#hit').on('click', function(){
+    //update actions
+    $('#actions').append(`<br/> Player draws.`)
+
+    //draw player card
     playerHand.push(getCardFromDeck())
+
+    //update player hand total
     $('#playerHandTotal').text(addHandValue(playerHand))
-    console.log(`Player hits.`)
-    $('#actions').append(`<br/> Player draw: ${translateCard(playerHand[playerHand.length - 1])}`)
+
+    //display players draw
+    $('#playerHand').append(`${translateCard(playerHand[playerHand.length - 1])}, `)
     
+    //dealer actions && show dealer's hand total
+    dealerAction()
+    $('#dealerHandTotal').text(addHandValue(dealerHand))
+
+    //check for game over
     if(checkGameOver(playerHand, dealerHand)){
         $('#stay').click()
     }
-    // do the same for the dealer
 })
 
 // Event listener for stay button - Player is done drawing, check for winner
 $('#stay').on('click', function () {
-    console.log("I'll stay!")
-    console.log("Player stays. Result: .")
+    // Do dealer actions (if applicable)
+    while(addHandValue(dealerHand) < 17){
+        dealerAction()
+    }
 
     // Don't want to let the player keep playing after game is ended
     $('#hit').attr('disabled', true)
@@ -42,20 +69,22 @@ $('#stay').on('click', function () {
     $('#split').attr('disabled', true)
 
     // Show dealer's hand and total
-    //...
+
+    $('#dealerHandTotal').text(addHandValue(dealerHand))
 
     // show user the result of who won
     $('#handresult1').show()
 
     //if(dealer won)
-    alert(`${checkwhowon()} has won!`) // need to set this to either dealer or player depending on who won
+    alert(`${checkWhoWon(playerHand, dealerHand)} has won!`) // need to set this to either dealer or player depending on who won
+    $('#actions').append(`<br/> <p style="color:red;">GAME OVER!</p>`)
 
     // Decide winner based on who is closer to 21, but still under it
 })
 
 // Event listener for split button - Splits the player's hand (only available when player has two-of-a-kind)
 $('#split').on('click', function () {
-    alert("Functionality not built in yet!")
+    $('#actions').append("<br /> Player splits the hand.")
 })
 
 // Event listener for fnish button - For when player is done playing... simply reloads the page
@@ -93,6 +122,8 @@ function Card(value, suit, inDeck) {
         let val = this.value
         if(val > 9){        // Face card or 10, its "worth" is 10
             return 10
+        }else if(val === 1){// Ace
+            return 11
         }else{              // Its a normal card, its "worth" = its value
             return val
         }
@@ -165,6 +196,9 @@ function addHandValue(hand){
     for(let i = 0; i < hand.length; i++){
         value += hand[i].getCardWorth()
     }
+    if(checkForAce(hand) && value > 21){
+        return value-10
+    }
     return value
 }
 
@@ -205,7 +239,55 @@ function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (+max - +min) + +min)
 }
 
-// Will return either "Player" or "Dealer" depending on who has higher total and who did or didn't bust (not implemented yet)
-function checkWhoWon(){
-    return "player"
+// Will return either "Player" or "Dealer" depending on who has higher total and who did or didn't bust, or "No one" if they tied
+function checkWhoWon(player, dealer){
+    let p = addHandValue(player)
+    let d = addHandValue(dealer) 
+
+    if(p > d && p < 22 || p < 22 && d > 21){
+        //if player had higher than dealer and didn't bust
+        //or if player didn't bust and dealer did
+        return "Player"
+    } else if (d > p && d < 22 || d < 22 && p > 21){
+        //if dealer had higher than player and didn't bust
+        //or if dealer didn't bust and player did
+        return "Dealer"
+    } else {
+        return "No one"
+    }    
+}
+
+// Dealer Action will draw if dealer is below 17 and stay if 17 or more
+function dealerAction(){
+    let p = addHandValue(playerHand)
+    let d = addHandValue(dealerHand)
+
+    if (d > 16) {
+        //dealer stays
+        $('#actions').append("<br /> Dealer stays.")
+    } else if (d <= p && p < 22){
+        //dealer hits
+        $('#actions').append("<br /> Dealer draws.")
+        dealerHand.push(getCardFromDeck())
+        $('#dealerHand').append(`${translateCard(dealerHand[dealerHand.length - 1])}, `)
+    }
+    else {
+        //dealer hits
+        $('#actions').append("<br /> Dealer draws.")
+        dealerHand.push(getCardFromDeck())
+        $('#dealerHand').append(`${translateCard(dealerHand[dealerHand.length - 1])}, `)
+    }
+}
+
+function checkForAce(hand){
+    hand.forEach(function(item){
+        if(item.getValue() === 1){
+            return true
+        }
+    });
+    return false
+}
+
+function split(){
+    return null
 }
